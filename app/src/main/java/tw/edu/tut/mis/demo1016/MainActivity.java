@@ -1,6 +1,7 @@
 package tw.edu.tut.mis.demo1016;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,10 +13,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,13 +48,27 @@ public class MainActivity extends AppCompatActivity {
         ListView mLV;
         mLV = findViewById(R.id.listView);
         mLV.setAdapter( mAdapter );
-        mLV.setOnItemClickListener(mCli);  //點選項目
-        mLV.setOnItemLongClickListener(mDel); //長按項目
 
-        Button bt;
-        bt = findViewById(R.id.button);
-        bt.setOnClickListener(mAdd);
+        //新增的按鈕
+        //也可以  findViewById(R.id.imageButton).setOnClickListener(mAdd);
+        ImageButton ib;
+        ib = findViewById(R.id.imageButton);
+        ib.setOnClickListener(mAddClick);
     }
+
+
+    //新增的按鈕 點選時要做的事情
+    View.OnClickListener mAddClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent  it = new Intent();
+            it.setClass(MainActivity.this, WriteActivity.class);
+            it.putExtra("名稱1號","傳過去的值");
+            it.putExtra("名稱2號", 3.14159);
+            it.putExtra("名稱自己取", 1000);
+            startActivity(it);
+        }
+    };
 
 
     //定義自己的 ArrayAdapter     簡化起見，寫成巢狀class (類別裡面的類別)
@@ -86,61 +103,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    //點選項目
-    AdapterView.OnItemClickListener mCli = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            String s;
-//            // s = (String)mList.get(position);
-//            // s = (String)mAdapter.getItem(position);
-//            s = (String)parent.getItemAtPosition(position);
-//
-//            Toast.makeText( MainActivity.this, "點選:"+s, Toast.LENGTH_LONG )
-//                    .show();
-        }
-    };
-
-
-    //長按項目後 刪除
-    AdapterView.OnItemLongClickListener mDel = new AdapterView.OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//            //方法1
-//            String s;
-//            // s = (String)mAdapter.getItem(position);
-//            s = (String)parent.getItemAtPosition(position);
-//            mAdapter.remove(s);
-//            //方法2
-//            // mList.remove( position );
-//            // mAdapter.notifyDataSetChanged();
-
-            return true;  // 表示已經處理了長按的動作 true  未處理(完成) false
-
-        }
-    };
-
-
-
-    View.OnClickListener mAdd = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-//            //找到輸入格子
-//            EditText ed;
-//            ed = findViewById(R.id.editText);
-//            //取得輸入的內容
-//            String s;
-//            s = ed.getText().toString();
-//            //把內容加到清單中
-//            //方法1
-//            //mAdapter.add( s );
-//            mAdapter.insert( s, 0 );
-//            //方法2
-//            //mList.add( s );
-//            //mList.add( 0, s );
-//            //mAdapter.notifyDataSetChanged();
-        }
-    };
 
 }
 
